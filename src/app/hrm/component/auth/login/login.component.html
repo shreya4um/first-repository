@@ -24,7 +24,7 @@
                         </div>
                   
                     </div>
-                    <button (click)="login()" routerLink="/new-dasboard"  routerLinkActive="active">Login</button>
+                    <button [disabled]="loginForm.invalid" (click)="login()" routerLink="/new-dasboard"  routerLinkActive="active">Login</button>
                 </form>
                 </div>
         
