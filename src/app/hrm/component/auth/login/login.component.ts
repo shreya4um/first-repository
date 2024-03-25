@@ -1,87 +1,52 @@
-// import { Component } from '@angular/core';
-// import { FormControl, FormGroup, Validators } from '@angular/forms';
-// import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-// import { Password } from 'primeng/password';
-// @Component({
-//   selector: 'app-login',
-//   standalone: true,
-//   imports: [RouterLink,RouterLinkActive,],
-//   templateUrl: './login.component.html',
-//   styleUrl: './login.component.scss'
-// })
-// export class LoginComponent {
-
-
-// // constructor(private router: Router) {}
-
-// // loginSuccessful() {
-// //   this.router.navigate(['/dasboard']);
-// // }
-// // valCheck: string[] = ['remember'];
-
-// // password!: string;
-
-
-// email=new FormControl("",[
-//   Validators.required,
-//   Validators.email
-// ])
-// password=new FormControl (" ",[
-//   Validators.required,
-//   Validators.minLength(6)
-// ])
-// loginForm = new FormGroup (" ",[
-// email:this.email,
-// password:this.password,
-// ])
-
-// login(){
-//   console.log(this.loginForm.value)
-// }
-// // rest(){
-// //   this.login.reset()
-// // }
-
-// }
-
-
-
-
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators,FormBuilder,FormControlName, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormBuilder, FormControlName, ReactiveFormsModule, NgModel } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Password } from 'primeng/password';
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
 @Component({
-     selector: 'app-login',
-     standalone: true,
-     imports: [RouterLink,RouterLinkActive,ReactiveFormsModule,],
-     templateUrl: './login.component.html',
-     styleUrl: './login.component.scss'
-   })
+  selector: 'app-login',
+  standalone: false,
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss'
+})
 export class LoginComponent {
-  email = new FormControl('', [
-    Validators.required,
-    Validators.email
-  ]);
+  loginForm: FormGroup;
+  submitted: boolean = false;
 
-  password = new FormControl('', [
-    Validators.required,
-    Validators.minLength(6)
-  ]);
+  constructor(private router: Router, private formBuilder: FormBuilder, public layoutService: LayoutService) {
+    this.formInit();
+  }
 
-  loginForm = new FormGroup({
-    email: this.email,
-    password: this.password
-  });
 
-  constructor(private router: Router) {}
+  formInit() {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+    });
+
+    console.log(this.loginForm, "bhuvi")
+  }
+
+  get f() {
+    return this.loginForm.controls
+  }
+
+
+
 
   login() {
+
+    this.submitted = true;
+    if (this.loginForm) {
+      return
+    }
+
+
     console.log(this.loginForm.value);
     // Add your login logic here
     this.router.navigate(['/new-dasboard']);
   }
-  reset(){
+  reset() {
     this.loginForm.reset()
   }
 }
